@@ -114,7 +114,7 @@ public class GameManager : MonoBehaviour
                         {
                             myObj = null;
                         });
-                        
+
 
                     }
                     else
@@ -174,6 +174,12 @@ public class GameManager : MonoBehaviour
 
     }
 
+    public void LevelEndWin()
+    {
+        Player.instance.Stop();
+        gameState = GameState.End;
+        StartCoroutine(UIManager.instance.WinPanel(1f));
+    }
 
 }
 

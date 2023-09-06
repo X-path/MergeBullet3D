@@ -28,11 +28,11 @@ public class FireRate : MonoBehaviour
     {
         if (other.gameObject.layer == 8)
         {
-            
+            GunsManager.instance.GunsFireRateChange((float)fireRateCount);
         }
         if (other.gameObject.layer == 9)
         {
-            fireRateCount++;
+            fireRateCount+=other.GetComponent<Bullet>().bulletLevel;
             TextUpdate();
             ColorChange();
         }

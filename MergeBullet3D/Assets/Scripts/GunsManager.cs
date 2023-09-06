@@ -59,4 +59,11 @@ public class GunsManager : MonoBehaviour
             guns[i].GetComponent<Gun>().shotType=_shotType;
         }
     }
+    public void GunsFireRateChange(float _fireRate)
+    {
+        for(int i=0;i<guns.Count;i++)
+        {
+            guns[i].GetComponent<Gun>().FireRateChange(_fireRate);
+        }
+    }
 }

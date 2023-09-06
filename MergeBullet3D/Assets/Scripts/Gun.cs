@@ -13,7 +13,7 @@ public class Gun : MonoBehaviour
     public ShotType shotType;
     public int gunBulletLevel = 0;
 
-    public float fireRate = .15f;
+    float fireRate = .5f;
 
     private float nextFireTime = 0.0f;
     GameObject bulletPrefab;
@@ -53,6 +53,38 @@ public class Gun : MonoBehaviour
     {
         GameObject _go = SimplePool.Spawn(bulletPrefab, _shotTransfom.position, _shotTransfom.rotation);
         bullet = _go;
+        bullet.GetComponent<Bullet>().bulletLevel = gunBulletLevel;
+
+    }
+
+    public void FireRateChange(float _fireRate)
+    {
+        float _value = _fireRate / 100;
+
+        if (_fireRate < 0)
+        {
+            if (fireRate + _value > 1.5f)
+            {
+                fireRate = 1.5f;
+            }
+            else
+            {
+
+                fireRate += _value;
+            }
+        }
+        else
+        {
+            if (fireRate - _value < 0.1f)
+            {
+                fireRate = 0.1f;
+            }
+            else
+            {
+
+                fireRate -= _value;
+            }
+        }
 
     }
 }

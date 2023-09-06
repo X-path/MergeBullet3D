@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LevelFeatures Data
   m_EditorClassIdentifier: 
   pointsLevel: 000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
-  BuyBtnMoney: 10
+  BuyBtnMoney: 15
   BuyBtnExtraMoney: 5
-  BuyBtnMoneyLevel: 0
+  BuyBtnMoneyLevel: 3

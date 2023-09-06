@@ -6,7 +6,8 @@ public class Bullet : MonoBehaviour
 {
     Rigidbody rigidbody;
     float bulletSpeed = 10f;
-   
+    public int bulletLevel = 0;
+
     void OnEnable()
     {
         rigidbody = GetComponent<Rigidbody>();
@@ -16,10 +17,11 @@ public class Bullet : MonoBehaviour
     {
         rigidbody.velocity = transform.forward * bulletSpeed;
     }
-    void BulletDestroy()
+    public void BulletDestroy()
     {
         rigidbody.velocity = Vector3.zero;
-        transform.localScale=new Vector3(1f, 1f, 1f);
+        transform.localScale = new Vector3(1f, 1f, 1f);
+        bulletLevel = 0;
         SimplePool.Despawn(this.gameObject);
     }
 

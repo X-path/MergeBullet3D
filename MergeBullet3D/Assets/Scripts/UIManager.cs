@@ -53,14 +53,14 @@ public class UIManager : MonoBehaviour
 
 
 
-        if (PlayerPrefs.GetInt("level") == 0)
+        if (PlayerPrefs.GetInt("level") == 1)
         {
             PlayerPrefs.SetFloat("Gem", 50);
         }
     }
     private void Start()
     {
-
+        Debug.Log(PlayerPrefs.GetFloat("Gem"));
         UpdateGemCount();
         UpdateLevelTexts();
 
@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
 
     public void OnTapToContinue()
     {
-        int res = Random.Range(2, SceneManager.sceneCountInBuildSettings);
+        int res = Random.Range(1, SceneManager.sceneCountInBuildSettings);
 
         if (PlayerPrefs.GetInt("level") > SceneManager.sceneCountInBuildSettings - 1)
         {
@@ -123,7 +123,7 @@ public class UIManager : MonoBehaviour
 
         }
         PlayerPrefs.SetInt("FirstLogin", 2);
-        PlayerPrefs.SetFloat("Gem", gemCount);
+        
     }
 
     public void OnTapToRetry()
@@ -141,7 +141,8 @@ public class UIManager : MonoBehaviour
 
         int levelNum = PlayerPrefs.GetInt("level");
         PlayerPrefs.SetInt("level", levelNum + 1);
-
+        PlayerPrefs.SetFloat("Gem", gemCount + 100);
+        Debug.Log(PlayerPrefs.GetFloat("Gem"));
         yield return new WaitForSeconds(waitTime);
         levelCompletePanel.SetActive(true);
 
@@ -152,7 +153,7 @@ public class UIManager : MonoBehaviour
     {
 
         levelState = LevelState.Lose;
-
+        PlayerPrefs.SetFloat("Gem", gemCount + 25);
         yield return new WaitForSeconds(waitTime);
         levelFailedPanel.SetActive(true);
 
@@ -186,8 +187,8 @@ public class UIManager : MonoBehaviour
 
     public void ShotBtnAction()
     {
-        if(MergeAreaManager.instance.mergeBullets.Count==0)
-        return;
+        if (MergeAreaManager.instance.mergeBullets.Count == 0)
+            return;
 
         for (int i = 0; i < MergeAreaManager.instance.mergePoints.Count; i++)
         {

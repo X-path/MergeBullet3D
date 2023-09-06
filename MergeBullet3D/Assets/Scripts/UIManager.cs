@@ -186,6 +186,8 @@ public class UIManager : MonoBehaviour
 
     public void ShotBtnAction()
     {
+        if(MergeAreaManager.instance.mergeBullets.Count==0)
+        return;
 
         for (int i = 0; i < MergeAreaManager.instance.mergePoints.Count; i++)
         {
@@ -204,6 +206,6 @@ public class UIManager : MonoBehaviour
 
         MergeAreaManager.instance.ShotMergeBullet();
 
-        CameraController.instance.cameraState = CameraStae.BulletFollow;
+        CameraController.instance.cameraState = CameraState.BulletFollow;
     }
 }

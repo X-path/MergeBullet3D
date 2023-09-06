@@ -85,7 +85,7 @@ public class MergeAreaManager : MonoBehaviour
         }
     }
 
-    public void MergeBulletsCountControll(MergeBullet _go)
+    public void MergeBulletsCountControll(MergeBullet _go, bool _isGun)
     {
         MergeBullet _mb = _go;
         mergeBullets.Remove(_go);
@@ -93,8 +93,16 @@ public class MergeAreaManager : MonoBehaviour
 
         if (mergeBullets.Count == 0)
         {
-            CameraController.instance.cameraState = CameraStae.Idle;
-            StartCoroutine(UIManager.instance.LosePanel(.25f));
+            CameraController.instance.cameraState = CameraState.Idle;
+            if (!_isGun)
+            {
+                StartCoroutine(UIManager.instance.LosePanel(.25f));
+            }
+            else
+            {
+               StartCoroutine(GunsManager.instance.GunsOrganizing());
+            }
+                
         }
     }
 

@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 
-public enum CameraStae
+public enum CameraState
 {
     Idle,
     BulletFollow,
@@ -10,7 +11,7 @@ public enum CameraStae
 }
 public class CameraController : MonoBehaviour
 {
-    public CameraStae cameraState;
+    public CameraState cameraState;
     public static CameraController instance;
     Transform targetBullet;
     Transform targetPlayer;
@@ -19,7 +20,7 @@ public class CameraController : MonoBehaviour
     public Vector3 offset;
     public float SmoothTime = 0.3f;
     private Vector3 velocity = Vector3.zero;
-
+    [SerializeField] Transform shooterCamTransform;
     private void Awake()
     {
         if (instance == null)
@@ -32,10 +33,10 @@ public class CameraController : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (cameraState == CameraStae.Idle)
+        if (cameraState == CameraState.Idle)
             return;
 
-        if (cameraState == CameraStae.BulletFollow)
+        if (cameraState == CameraState.BulletFollow)
         {
             if (MergeAreaManager.instance.mergeBullets.Count == 0)
                 return;
@@ -44,7 +45,7 @@ public class CameraController : MonoBehaviour
             target = targetBullet;
         }
 
-        if (cameraState == CameraStae.PlayerFollow)
+        if (cameraState == CameraState.PlayerFollow)
         {
             target = targetPlayer;
         }
@@ -53,34 +54,7 @@ public class CameraController : MonoBehaviour
             return;
 
         Vector3 targetPosition = target.position + offset;
-        camTransform.position = Vector3.SmoothDamp(transform.position, new Vector3(0, transform.position.y, targetPosition.z), ref velocity, SmoothTime);
-
-
-
-
-
-
-        /*     if (!isFollow)
-                 return;
-
-             if (MergeAreaManager.instance.mergeBullets.Count == 0)
-                 return;
-
-             UpdateTarget();
-
-             if (transform.position.z > camDeepPosY && currTarget != null)
-             {
-                 Vector3 desiredPosition = currTarget.position + offset;
-                 Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-                 smoothedPosition.x = 0;
-
-                 // if (smoothedPosition.y > lastTarget.position.y)
-                 //     return;
-
-
-                 transform.position = smoothedPosition;
-             }
-             */
+        camTransform.position = Vector3.SmoothDamp(transform.position, new Vector3(transform.position.x, transform.position.y, targetPosition.z), ref velocity, SmoothTime);
 
     }
 
@@ -102,7 +76,20 @@ public class CameraController : MonoBehaviour
         }
 
         targetBullet = farthestObj;
+    }
 
-
+    public void ShotStartPos()
+    {
+        transform.DOMove(shooterCamTransform.position, .5f);
+        transform.DORotate(shooterCamTransform.eulerAngles, .5f).OnComplete(() =>
+        {
+            //offset.x-=3f;
+            offset.z=-5f;
+            cameraState = CameraState.PlayerFollow;
+            GameManager.instance.gameState = GameState.Shooter;
+            targetPlayer = GameManager.instance.player.transform;
+            
+            
+        });
     }
 }

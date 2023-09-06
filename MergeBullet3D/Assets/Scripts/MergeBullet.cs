@@ -42,6 +42,10 @@ public class MergeBullet : MonoBehaviour
         {
             StartBlockContact(other.gameObject);
         }
+        else if (other.gameObject.layer == 8)
+        {
+            GunContact(other.gameObject);
+        }
     }
 
     void StartBlockContact(GameObject _go)
@@ -51,7 +55,12 @@ public class MergeBullet : MonoBehaviour
         Destroy(_go);
         if (bulletLevel == 0)
         {
-            MergeAreaManager.instance.MergeBulletsCountControll(this);
+            MergeAreaManager.instance.MergeBulletsCountControll(this, false);
         }
+    }
+    void GunContact(GameObject _gun)
+    {
+        GunsManager.instance.GunsAdd(_gun, bulletLevel);
+        MergeAreaManager.instance.MergeBulletsCountControll(this, true);
     }
 }

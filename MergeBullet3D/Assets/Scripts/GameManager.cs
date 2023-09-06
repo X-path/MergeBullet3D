@@ -17,6 +17,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] public GameObject myObj;
     Vector3 originalMyObjPos;
     bool isRaycastFailed = false;
+
+    [SerializeField] public GameObject player;
+
     private void Awake()
     {
         if (instance == null)
@@ -28,6 +31,7 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         gameState = GameState.Merge;
+
     }
 
     void Update()
@@ -57,7 +61,9 @@ public class GameManager : MonoBehaviour
 
             if (gameState == GameState.Shooter)
             {
-
+                Player.instance.Movement();
+                Player.instance.Drag();
+                GunsManager.instance.GunsFire();
             }
         }
         if (InputManager.instance.inputState == InputState.MouseUp)
@@ -73,7 +79,7 @@ public class GameManager : MonoBehaviour
 
             if (gameState == GameState.Shooter)
             {
-
+                Player.instance.Stop();
             }
 
         }
@@ -108,7 +114,7 @@ public class GameManager : MonoBehaviour
                         {
                             myObj = null;
                         });
-                        //myObj.transform.localPosition = originalMyObjPos;
+                        
 
                     }
                     else
